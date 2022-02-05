@@ -1,0 +1,26 @@
+name: "Main Pipeline"
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, edited]
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: npm install
+        run: npm install
+      - name: format
+        run: npm run format
+      - name: lint fix
+        run: npm run lint:fix
+      - name: lint
+        run: npm run lint
